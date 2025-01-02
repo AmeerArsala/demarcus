@@ -1,4 +1,4 @@
-import type { Reaction } from "@lib/demarcus/reactions";
+import type { Reaction } from "@lib/reactions";
 import { GITHUB_GRAPHQL_API_URL } from "@services/config";
 
 const TOGGLE_REACTION_QUERY = (mode: "add" | "remove") => `
@@ -30,7 +30,7 @@ export interface ToggleReactionResponse {
 export async function toggleReaction(
   params: ToggleReactionBody,
   token: string,
-  viewerHasReacted: boolean
+  viewerHasReacted: boolean,
 ): Promise<ToggleReactionResponse> {
   return fetch(GITHUB_GRAPHQL_API_URL, {
     method: "POST",

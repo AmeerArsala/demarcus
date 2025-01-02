@@ -1,4 +1,4 @@
-import type { GReply } from "@lib/demarcus/types/github";
+import type { GReply } from "@lib/types/github";
 import { GITHUB_GRAPHQL_API_URL } from "@services/config";
 
 const ADD_DISCUSSION_REPLY_QUERY = `
@@ -48,7 +48,7 @@ export interface AddDiscussionReplyResponse {
 
 export async function addDiscussionReply(
   params: AddDiscussionReplyBody,
-  token: string
+  token: string,
 ): Promise<AddDiscussionReplyResponse> {
   return fetch(GITHUB_GRAPHQL_API_URL, {
     method: "POST",

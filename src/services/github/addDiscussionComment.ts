@@ -1,4 +1,4 @@
-import type { GComment } from "@lib/demarcus/types/github";
+import type { GComment } from "@lib/types/github";
 import { GITHUB_GRAPHQL_API_URL } from "@services/config";
 
 const ADD_DISCUSSION_COMMENT_QUERY = `
@@ -73,7 +73,7 @@ export interface AddDiscussionCommentResponse {
 
 export async function addDiscussionComment(
   params: AddDiscussionCommentBody,
-  token: string
+  token: string,
 ): Promise<AddDiscussionCommentResponse> {
   return fetch(GITHUB_GRAPHQL_API_URL, {
     method: "POST",

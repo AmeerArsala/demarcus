@@ -1,23 +1,25 @@
-import { cleanParams, fetcher } from "@lib/demarcus/fetcher";
-import { type Reaction, updateDiscussionReaction } from "@lib/demarcus/reactions";
-import type { IComment, IGiscussion, IReply } from "@lib/demarcus/types/adapter";
-import type { DiscussionQuery, PaginationParams } from "@lib/demarcus/types/common";
-import type { CommentOrder, IDiscussionData } from "@lib/demarcus/types/demarcus";
-import { env } from "@lib/demarcus/variables";
+import { cleanParams, fetcher } from "@lib/fetcher";
+import { type Reaction, updateDiscussionReaction } from "@lib/reactions";
+import type { IComment, IGiscussion, IReply } from "@lib/types/adapter";
+import type { DiscussionQuery, PaginationParams } from "@lib/types/common";
+import type { CommentOrder, IDiscussionData } from "@lib/types/demarcus";
+import { env } from "@lib/variables";
 import { useCallback, useMemo, useState } from "react";
 import { SWRConfig } from "swr";
 import useSWRInfinite from "swr/infinite";
-import { HOST_URL } from "@lib/demarcus/constants";
-import { encodeSearchParams } from "@lib/demarcus/utils";
+import { HOST_URL } from "@lib/constants";
+import { encodeSearchParams } from "@lib/utils";
 
 export function useDiscussion(
   query: DiscussionQuery,
   token?: string,
   pagination: PaginationParams = {},
-  revalidateFirstPage = false
+  revalidateFirstPage = false,
 ) {
   const [errorStatus, setErrorStatus] = useState(0);
-  const urlParams = new URLSearchParams(cleanParams({ ...query, ...pagination }));
+  const urlParams = new URLSearchParams(
+    cleanParams({ ...query, ...pagination }),
+  );
 
   const headers = useMemo(() => {
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
@@ -27,24 +29,29 @@ export function useDiscussion(
   const getKey = (pageIndex: number, previousPageData?: IGiscussion) => {
     if (pagination.first === 0 || pagination.last === 0) return null;
     if (pageIndex === 0)
-      return [`${HOST_URL}/api/discussions?${encodeSearchParams(urlParams)}`, headers];
+      return [
+        `${HOST_URL}/api/discussions?${encodeSearchParams(urlParams)}`,
+        headers,
+      ];
     if (!previousPageData.discussion.pageInfo.hasNextPage) return null;
     const params = new URLSearchParams(
       cleanParams({
         ...query,
         after: previousPageData.discussion.pageInfo.endCursor,
         before: pagination.before,
-      })
+      }),
     );
-    return [`${HOST_URL}/api/discussions?${encodeSearchParams(params)}`, headers];
+    return [
+      `${HOST_URL}/api/discussions?${encodeSearchParams(params)}`,
+      headers,
+    ];
   };
 
-  const shouldRevalidate = (status: number) => ![403, 404, 429].includes(status);
+  const shouldRevalidate = (status: number) =>
+    ![403, 404, 429].includes(status);
 
-  const { data, size, setSize, error, mutate, isValidating } = useSWRInfinite<IGiscussion>(
-    getKey,
-    fetcher,
-    {
+  const { data, size, setSize, error, mutate, isValidating } =
+    useSWRInfinite<IGiscussion>(getKey, fetcher, {
       onErrorRetry: (err, key, config, revalidate, opts) => {
         if (!shouldRevalidate(err?.status)) return;
         SWRConfig.defaultValue.onErrorRetry(err, key, config, revalidate, opts);
@@ -53,8 +60,7 @@ export function useDiscussion(
       revalidateOnMount: shouldRevalidate(errorStatus),
       revalidateOnFocus: shouldRevalidate(errorStatus),
       revalidateOnReconnect: shouldRevalidate(errorStatus),
-    }
-  );
+    });
 
   if (error?.status && error.status !== errorStatus) {
     setErrorStatus(error.status);
@@ -78,11 +84,11 @@ export function useDiscussion(
             },
           },
         ],
-        false
+        false,
       );
       return mutate();
     },
-    [data, mutate]
+    [data, mutate],
   );
 
   const addNewReply = useCallback(
@@ -94,20 +100,20 @@ export function useDiscussion(
           comments: page.discussion.comments.map((comment) =>
             comment.id === reply.replyToId
               ? { ...comment, replies: [...comment.replies, reply] }
-              : comment
+              : comment,
           ),
         },
       }));
       mutate(newData, false);
       return mutate();
     },
-    [data, mutate]
+    [data, mutate],
   );
 
   const updateDiscussion = useCallback(
     (newDiscussions: IGiscussion[], promise?: Promise<unknown>) =>
       mutate(newDiscussions, !promise) && promise?.then(() => mutate()),
-    [mutate]
+    [mutate],
   );
 
   const updateComment = useCallback(
@@ -118,13 +124,13 @@ export function useDiscussion(
           discussion: {
             ...page.discussion,
             comments: page.discussion.comments.map((comment) =>
-              comment.id === newComment.id ? newComment : comment
+              comment.id === newComment.id ? newComment : comment,
             ),
           },
         })),
-        !promise
+        !promise,
       ) && promise?.then(() => mutate()),
-    [data, mutate]
+    [data, mutate],
   );
 
   const updateReply = useCallback(
@@ -139,16 +145,16 @@ export function useDiscussion(
                 ? {
                     ...comment,
                     replies: comment.replies.map((reply) =>
-                      reply.id === newReply.id ? newReply : reply
+                      reply.id === newReply.id ? newReply : reply,
                     ),
                   }
-                : comment
+                : comment,
             ),
           },
         })),
-        !promise
+        !promise,
       ) && promise?.then(() => mutate()),
-    [data, mutate]
+    [data, mutate],
   );
 
   return {
@@ -173,7 +179,7 @@ export function useDiscussion(
 export function useFrontBackDiscussion(
   query: DiscussionQuery,
   token?: string,
-  orderBy: CommentOrder = "oldest"
+  orderBy: CommentOrder = "oldest",
 ) {
   const backDiscussion = useDiscussion(query, token, { last: 15 }, true);
   const {
@@ -218,14 +224,15 @@ export function useFrontBackDiscussion(
     // Fix the reply count.
     newData.discussion.totalReplyCount = newData.discussion.comments?.reduce(
       (prev, c) => prev + c.replyCount,
-      0
+      0,
     );
 
     return newData;
   });
 
   let backComments = backData?.discussion?.comments || [];
-  let frontComments = frontData?.flatMap((page) => page?.discussion?.comments || []) || [];
+  let frontComments =
+    frontData?.flatMap((page) => page?.discussion?.comments || []) || [];
   let backMutators = backDiscussion.mutators;
   let frontMutators = frontDiscussion.mutators;
 
@@ -242,9 +249,12 @@ export function useFrontBackDiscussion(
   const updateReactions = useCallback(
     (reaction: Reaction, promise: Promise<unknown>) =>
       backData
-        ? _defaultMutators.updateDiscussion([updateDiscussionReaction(backData, reaction)], promise)
+        ? _defaultMutators.updateDiscussion(
+            [updateDiscussionReaction(backData, reaction)],
+            promise,
+          )
         : promise.then(() => _defaultMutators.mutate()),
-    [backData, _defaultMutators]
+    [backData, _defaultMutators],
   );
 
   const increaseSize = useCallback(() => setSize(size + 1), [setSize, size]);
@@ -258,7 +268,8 @@ export function useFrontBackDiscussion(
   const totalCommentCount = backData?.discussion?.totalCommentCount;
   const totalReplyCount =
     (backData?.discussion?.totalReplyCount || 0) +
-    (frontData?.reduce((prev, g) => prev + g.discussion.totalReplyCount, 0) || 0);
+    (frontData?.reduce((prev, g) => prev + g.discussion.totalReplyCount, 0) ||
+      0);
 
   const error = frontError || backError;
   const needsFrontLoading = backData?.discussion?.pageInfo?.hasPreviousPage;

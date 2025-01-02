@@ -1,15 +1,21 @@
 {
-  "name": "demarcus-lib",
-  "version": "1.0.0",
-  "description": "",
+  "name": "demarcus",
   "type": "module",
+  "version": "0.0.1",
+  "description": "Library for <CommentsSection/> component working out of the box using GitHub discussions and based on Giscus",
+  "author": "Ameer Arsala <ameer.arsala03@gmail.com>",
+  "keywords": [
+    "comments section",
+    "comments",
+    "giscus",
+    "github",
+    "discussion",
+    "blog"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",

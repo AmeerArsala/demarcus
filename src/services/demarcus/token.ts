@@ -1,17 +1,20 @@
-import type { IError } from "@lib/demarcus/types/adapter";
-import type { ITokenRequest, ITokenResponse } from "@lib/demarcus/types/demarcus";
-import { HOST_URL } from "@lib/demarcus/constants";
+import type { IError } from "@lib/types/adapter";
+import type { ITokenRequest, ITokenResponse } from "@lib/types/demarcus";
+import { HOST_URL } from "@lib/constants";
 
 export async function getToken(session: string) {
   const reqBody = JSON.stringify({ session } as ITokenRequest);
 
-  const result: ITokenResponse | IError = await fetch(`${HOST_URL}/api/oauth/token`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const result: ITokenResponse | IError = await fetch(
+    `${HOST_URL}/api/oauth/token`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: reqBody,
     },
-    body: reqBody,
-  }).then((r) => r.json());
+  ).then((r) => r.json());
 
   if ("error" in result) throw new Error(result.error);
 
