@@ -4,6 +4,9 @@
   "version": "0.0.1",
   "description": "Library for <CommentsSection/> component working out of the box using GitHub discussions and based on Giscus",
   "author": "Ameer Arsala <ameer.arsala03@gmail.com>",
+  "license": "ISC",
+  "homepage": "https://demarcus.xyz",
+  "bugs": "https://github.com/AmeerArsala/demarcus/issues",
   "keywords": [
     "comments section",
     "comments",
@@ -12,18 +15,32 @@
     "discussion",
     "blog"
   ],
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "watch": "pnpm run build -- --watch src",
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
-    "dompurify": "^3.2.3",
-    "mathjax": "^3.2.2",
+    "nanostores": "^0.11.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "swr": "^2.3.0",
     "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.4",
+    "tsup": "^8.3.5"
   }
 }

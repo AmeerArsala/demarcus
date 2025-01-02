@@ -1,4 +1,4 @@
-import { isEmpty } from "./utils";
+import { isEmpty } from "./utils.ts";
 
 export class CustomError extends Error {
   status: number;
@@ -22,7 +22,8 @@ export async function fetcher([input, init]: Parameters<typeof fetch>) {
 
 export function cleanParams(params: Record<string, unknown>) {
   return Object.entries(params).reduce(
-    (prev, [key, value]) => (!isEmpty(value) ? { ...prev, [key]: value } : prev),
-    {}
+    (prev, [key, value]) =>
+      !isEmpty(value) ? { ...prev, [key]: value } : prev,
+    {},
   );
 }

@@ -1,5 +1,5 @@
-import type { GReply } from "@lib/types/github";
-import { GITHUB_GRAPHQL_API_URL } from "@services/config";
+import type { GReply } from "@lib/types/github.ts";
+import { GITHUB_GRAPHQL_API_URL } from "@services/config.ts";
 
 const ADD_DISCUSSION_REPLY_QUERY = `
   mutation($body: String!, $discussionId: ID!, $replyToId: ID!) {

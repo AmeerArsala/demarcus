@@ -1,4 +1,4 @@
-import type { IReactionGroups } from "./adapter";
+import type { IReactionGroups } from "./adapter.ts";
 
 export type InputPosition = "top" | "bottom";
 

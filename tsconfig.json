@@ -1,14 +1,23 @@
 {
   "compilerOptions": {
+    "esModuleInterop": true,
     "jsx": "preserve",
     "jsxImportSource": "react",
-    "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": true,
     "strict": false,
-    "baseUrl": "."
-  },
-  "paths": {
-    "@/*": ["src/*"]
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "allowImportingTsExtensions": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "@lib/*": ["src/lib/*"],
+      "@services/*": ["src/services/*"]
+    },
+    "types": ["node", "mathjax"]
   }
 }

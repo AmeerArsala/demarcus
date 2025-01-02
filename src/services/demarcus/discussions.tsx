@@ -1,14 +1,14 @@
-import { cleanParams, fetcher } from "@lib/fetcher";
-import { type Reaction, updateDiscussionReaction } from "@lib/reactions";
-import type { IComment, IGiscussion, IReply } from "@lib/types/adapter";
-import type { DiscussionQuery, PaginationParams } from "@lib/types/common";
-import type { CommentOrder, IDiscussionData } from "@lib/types/demarcus";
-import { env } from "@lib/variables";
+import { cleanParams, fetcher } from "@lib/fetcher.ts";
+import { type Reaction, updateDiscussionReaction } from "@lib/reactions.ts";
+import type { IComment, IGiscussion, IReply } from "@lib/types/adapter.ts";
+import type { DiscussionQuery, PaginationParams } from "@lib/types/common.ts";
+import type { CommentOrder, IDiscussionData } from "@lib/types/demarcus.ts";
+import { env } from "@lib/variables.ts";
 import { useCallback, useMemo, useState } from "react";
 import { SWRConfig } from "swr";
 import useSWRInfinite from "swr/infinite";
-import { HOST_URL } from "@lib/constants";
-import { encodeSearchParams } from "@lib/utils";
+import { HOST_URL } from "@lib/constants.ts";
+import { encodeSearchParams } from "@lib/utils.ts";
 
 export function useDiscussion(
   query: DiscussionQuery,

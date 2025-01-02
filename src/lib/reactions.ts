@@ -1,4 +1,9 @@
-import type { IComment, IGiscussion, IReactionGroups, IReply } from "./types/adapter";
+import type {
+  IComment,
+  IGiscussion,
+  IReactionGroups,
+  IReply,
+} from "./types/adapter.ts";
 
 export const Reactions = {
   THUMBS_UP: "👍",
@@ -24,7 +29,10 @@ export const ReactionIDs = {
 
 export type Reaction = keyof typeof Reactions;
 
-function updateReactionGroups(reactionGroups: IReactionGroups, reaction: Reaction) {
+function updateReactionGroups(
+  reactionGroups: IReactionGroups,
+  reaction: Reaction,
+) {
   const diff = reactionGroups[reaction].viewerHasReacted ? -1 : 1;
   return [
     {
@@ -38,8 +46,14 @@ function updateReactionGroups(reactionGroups: IReactionGroups, reaction: Reactio
   ] as [IReactionGroups, number];
 }
 
-export function updateDiscussionReaction(page: IGiscussion, reaction: Reaction) {
-  const [newReactions, diff] = updateReactionGroups(page.discussion.reactions, reaction);
+export function updateDiscussionReaction(
+  page: IGiscussion,
+  reaction: Reaction,
+) {
+  const [newReactions, diff] = updateReactionGroups(
+    page.discussion.reactions,
+    reaction,
+  );
   return {
     ...page,
     discussion: {
@@ -52,7 +66,7 @@ export function updateDiscussionReaction(page: IGiscussion, reaction: Reaction) 
 
 export function updateCommentReaction<T extends IComment | IReply = IComment>(
   comment: T,
-  reaction: Reaction
+  reaction: Reaction,
 ) {
   const [newReactions] = updateReactionGroups(comment.reactions, reaction);
   return {

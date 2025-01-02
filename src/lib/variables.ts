@@ -1,3 +1,7 @@
 export const env = {
-  revalidate_first_page: import.meta.env.PUBLIC_REVALIDATE_FIRST_PAGE !== "false", // important; used to be NEXT_PUBLIC_REVALIDATE_FIRST_PAGE
-} as const;
+  revalidate_first_page: process.env.PUBLIC_REVALIDATE_FIRST_PAGE !== "false",
+}; // as const
+
+export function setRevalidateFirstPage(revalidate: boolean) {
+  env.revalidate_first_page = revalidate;
+}

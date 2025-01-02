@@ -1,5 +1,5 @@
-import type { Reaction } from "@lib/reactions";
-import { GITHUB_GRAPHQL_API_URL } from "@services/config";
+import type { Reaction } from "@lib/reactions.ts";
+import { GITHUB_GRAPHQL_API_URL } from "@services/config.ts";
 
 const TOGGLE_REACTION_QUERY = (mode: "add" | "remove") => `
   mutation($content: ReactionContent!, $subjectId: ID!) {

@@ -1,13 +1,18 @@
 import type { MouseEvent as ReactMouseEvent } from "react";
-import type { IComment, IGiscussion, IReactionGroups, IReply } from "./types/adapter";
+import type {
+  IComment,
+  IGiscussion,
+  IReactionGroups,
+  IReply,
+} from "./types/adapter.ts";
 import type {
   GComment,
   GReactionGroup,
   GReply,
   GRepositoryDiscussion,
   GUser,
-} from "./types/github";
-import { clipboardCopy } from "./utils";
+} from "./types/github.ts";
+import { clipboardCopy } from "./utils.ts";
 
 const COPY_BUTTON_HTML = `
 <div class="zeroclipboard-container position-absolute right-0 top-0">
@@ -29,7 +34,9 @@ const GhostUser: GUser = {
   url: "https://github.com/ghost",
 };
 
-export function adaptReactionGroups(reactionGroups: GReactionGroup[]): IReactionGroups {
+export function adaptReactionGroups(
+  reactionGroups: GReactionGroup[],
+): IReactionGroups {
   return reactionGroups.reduce((acc, group) => {
     acc[group.content] = {
       count: group.users.totalCount,
@@ -54,7 +61,12 @@ export function adaptReply(reply: GReply): IReply {
 }
 
 export function adaptComment(comment: GComment): IComment {
-  const { replies: repliesData, reactionGroups, author: _author, ...rest } = comment;
+  const {
+    replies: repliesData,
+    reactionGroups,
+    author: _author,
+    ...rest
+  } = comment;
   const { totalCount: replyCount, nodes: replyNodes } = repliesData;
 
   const reactions = adaptReactionGroups(reactionGroups);
@@ -82,7 +94,7 @@ export function adaptDiscussion({
 
   const totalReplyCount = commentsData.nodes.reduce(
     (acc, comment) => acc + comment.replies.totalCount,
-    0
+    0,
   );
 
   const reactions = adaptReactionGroups(reactionGroups);
@@ -113,9 +125,13 @@ export function toggleEmail(event: ReactMouseEvent<HTMLElement, MouseEvent>) {
   }
 }
 
-export function handleClipboardCopy(event: ReactMouseEvent<HTMLElement, MouseEvent>) {
+export function handleClipboardCopy(
+  event: ReactMouseEvent<HTMLElement, MouseEvent>,
+) {
   const element = event.target as HTMLElement;
-  const container = element.closest<HTMLDivElement>(".snippet-clipboard-content, .highlight");
+  const container = element.closest<HTMLDivElement>(
+    ".snippet-clipboard-content, .highlight",
+  );
   const button = element.closest<HTMLButtonElement>("button.ClipboardButton");
 
   if (container && button && event.currentTarget.contains(button)) {
@@ -126,8 +142,12 @@ export function handleClipboardCopy(event: ReactMouseEvent<HTMLElement, MouseEve
       "";
 
     clipboardCopy(contents).then(() => {
-      const clipboardIcon = button.querySelector<SVGElement>("svg.js-clipboard-copy-icon");
-      const checkIcon = button.querySelector<SVGElement>("svg.js-clipboard-check-icon");
+      const clipboardIcon = button.querySelector<SVGElement>(
+        "svg.js-clipboard-copy-icon",
+      );
+      const checkIcon = button.querySelector<SVGElement>(
+        "svg.js-clipboard-check-icon",
+      );
 
       clipboardIcon.classList.add("d-none");
       checkIcon.classList.remove("d-none");
@@ -140,7 +160,9 @@ export function handleClipboardCopy(event: ReactMouseEvent<HTMLElement, MouseEve
   }
 }
 
-export function handleCommentClick(event: ReactMouseEvent<HTMLElement, MouseEvent>) {
+export function handleCommentClick(
+  event: ReactMouseEvent<HTMLElement, MouseEvent>,
+) {
   toggleEmail(event);
   handleClipboardCopy(event);
 }
@@ -149,7 +171,7 @@ export function processCommentBody(bodyHTML: string) {
   if (typeof document === "undefined") {
     return bodyHTML.replace(
       /<a (href="[^"]*")/g,
-      '<a $1 rel="noopener noreferrer nofollow" target="_top"'
+      '<a $1 rel="noopener noreferrer nofollow" target="_top"',
     );
   }
 
@@ -157,25 +179,27 @@ export function processCommentBody(bodyHTML: string) {
   template.innerHTML = bodyHTML;
   const content = template.content;
 
-  content.querySelectorAll<HTMLAnchorElement>(":not(.email-hidden-toggle) > a").forEach((a) => {
-    const currentLink = window.location.href;
+  content
+    .querySelectorAll<HTMLAnchorElement>(":not(.email-hidden-toggle) > a")
+    .forEach((a) => {
+      const currentLink = window.location.href;
 
-    if (a.href.startsWith(`${currentLink}#`)) {
-      let parentLink: URL;
-      try {
-        parentLink = new URL(document.referrer);
-      } catch {
+      if (a.href.startsWith(`${currentLink}#`)) {
+        let parentLink: URL;
+        try {
+          parentLink = new URL(document.referrer);
+        } catch {
+          return;
+        }
+
+        parentLink.hash = "";
+        a.href = `${parentLink.href}${a.href.substring(currentLink.length)}`;
         return;
       }
 
-      parentLink.hash = "";
-      a.href = `${parentLink.href}${a.href.substring(currentLink.length)}`;
-      return;
-    }
-
-    a.rel = "noopener noreferrer nofollow";
-    a.target = "_top";
-  });
+      a.rel = "noopener noreferrer nofollow";
+      a.target = "_top";
+    });
 
   content
     .querySelectorAll<HTMLAnchorElement>("a.commit-tease-sha")
@@ -183,7 +207,7 @@ export function processCommentBody(bodyHTML: string) {
 
   content
     .querySelectorAll<HTMLDivElement>(
-      ".snippet-clipboard-content, .highlight:not(.js-file-line-container)"
+      ".snippet-clipboard-content, .highlight:not(.js-file-line-container)",
     )
     .forEach((div) => {
       div.classList.add("position-relative");

@@ -1,4 +1,4 @@
-import { GITHUB_GRAPHQL_API_URL } from "@services/config";
+import { GITHUB_GRAPHQL_API_URL } from "@services/config.ts";
 
 const TOGGLE_UPVOTE_QUERY = (mode: "Add" | "Remove") => `
   mutation($upvoteInput: ${mode}UpvoteInput!) {
@@ -26,7 +26,7 @@ export interface ToggleUpvoteResponse {
 export async function toggleUpvote(
   params: ToggleUpvoteBody,
   token: string,
-  viewerHasUpvoted: boolean
+  viewerHasUpvoted: boolean,
 ): Promise<ToggleUpvoteResponse> {
   return fetch(GITHUB_GRAPHQL_API_URL, {
     method: "POST",

@@ -1,4 +1,4 @@
-import type { Reactions } from "../reactions";
+import type { Reactions } from "../reactions.ts";
 
 export interface GUser {
   avatarUrl: string;

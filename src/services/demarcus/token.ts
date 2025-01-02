@@ -1,6 +1,6 @@
-import type { IError } from "@lib/types/adapter";
-import type { ITokenRequest, ITokenResponse } from "@lib/types/demarcus";
-import { HOST_URL } from "@lib/constants";
+import type { IError } from "@lib/types/adapter.ts";
+import type { ITokenRequest, ITokenResponse } from "@lib/types/demarcus.ts";
+import { HOST_URL } from "@lib/constants.ts";
 
 export async function getToken(session: string) {
   const reqBody = JSON.stringify({ session } as ITokenRequest);

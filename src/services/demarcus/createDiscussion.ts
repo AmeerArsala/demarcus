@@ -1,5 +1,5 @@
-import type { GCreateDiscussionInput } from "@lib/types/github";
-import { HOST_URL } from "@lib/constants";
+import type { GCreateDiscussionInput } from "@lib/types/github.ts";
+import { HOST_URL } from "@lib/constants.ts";
 
 export async function createDiscussion(
   repo: string,

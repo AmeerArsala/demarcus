@@ -1,5 +1,5 @@
-import type { GComment } from "@lib/types/github";
-import { GITHUB_GRAPHQL_API_URL } from "@services/config";
+import type { GComment } from "@lib/types/github.ts";
+import { GITHUB_GRAPHQL_API_URL } from "@services/config.ts";
 
 const ADD_DISCUSSION_COMMENT_QUERY = `
   mutation($body: String!, $discussionId: ID!) {
