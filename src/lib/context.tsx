@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import type { CommentOrder, InputPosition } from "./types/demarcus";
-import { HOST_URL } from "@lib/demarcus/constants";
+import { HOST_URL } from "./constants";
 
 interface IAuthContext {
   token: string;

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxImportSource": "react",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "checkJs": true,
+    "strict": false,
+    "baseUrl": "."
+  },
+  "paths": {
+    "@/*": ["src/*"]
+  }
+}
