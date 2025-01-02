@@ -16,6 +16,8 @@
     "dompurify": "^3.2.3",
     "mathjax": "^3.2.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "swr": "^2.3.0",
+    "typescript": "^5.7.2"
   }
 }
