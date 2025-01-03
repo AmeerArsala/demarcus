@@ -1,7 +1,7 @@
 {
   "name": "demarcus",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Library for <CommentsSection/> component working out of the box using GitHub discussions and based on Giscus",
   "author": "Ameer Arsala <ameer.arsala03@gmail.com>",
   "license": "ISC",
