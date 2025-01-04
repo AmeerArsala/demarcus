@@ -2,7 +2,7 @@ import { createContext } from "react";
 import type { CommentOrder, InputPosition } from "./types/demarcus.ts";
 import { HOST_URL } from "./constants.ts";
 
-interface IAuthContext {
+export interface IAuthContext {
   token: string;
   origin: string;
   getLoginUrl: (origin: string) => string;
@@ -24,7 +24,7 @@ export const AuthContext = createContext<IAuthContext>({
   },
 });
 
-interface IConfigContext {
+export interface IConfigContext {
   repo: string;
   repoId: string;
   category: string;
