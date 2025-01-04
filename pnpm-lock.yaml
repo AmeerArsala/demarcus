@@ -20,9 +20,6 @@ importers:
       swr:
         specifier: ^2.3.0
         version: 2.3.0(react@19.0.0)
-      typescript:
-        specifier: ^5.7.2
-        version: 5.7.2
     devDependencies:
       '@types/node':
         specifier: ^22.10.4
@@ -36,6 +33,9 @@ importers:
       tsup:
         specifier: ^8.3.5
         version: 8.3.5(typescript@5.7.2)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.7.2
 
 packages:
 
