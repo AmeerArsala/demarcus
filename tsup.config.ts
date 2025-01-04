@@ -11,5 +11,5 @@ export default defineConfig({
   treeshake: true,
   external: ["react", "react-dom"],
   outDir: "dist",
-  target: "ES2020",
+  //target: "ES2020",
 });
