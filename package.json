@@ -1,7 +1,7 @@
 {
   "name": "demarcus",
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Library for <CommentsSection/> component working out of the box using GitHub discussions and based on Giscus",
   "author": "Ameer Arsala <ameer.arsala03@gmail.com>",
   "license": "ISC",
@@ -13,20 +13,14 @@
     "giscus",
     "github",
     "discussion",
-    "blog"
+    "blog",
+    "react"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "build": "tsup",
     "watch": "pnpm run build -- --watch src",
     "prepublishOnly": "pnpm run build"
   },
